@@ -1,31 +1,16 @@
 import { GraphQLServer } from 'graphql-yoga';
+import db from './db';
 // types
 // String , Boolean , Int , Float , ID
-var users=[{
-    name:'Aaksh'
-}]
-var x=[{
-    name:'X value'
-}]
+
 // schema
-const typeDef=`
-    type Query {
-        name (name: String) : String!
-        user:[users!]!
-    }
-    type Mutation {
-        createUser(name:String!):users!
-    }
-    type users{
-        name(name:String):String!
-    }
-`
+
 
 // endpoints resolver
 const resolver ={
     Query: {
         user:()=>{
-            return users;
+            return db.users;
         },
         name:()=>{
             return "akasj"
@@ -33,14 +18,21 @@ const resolver ={
     },
     Mutation:{
         createUser(parent,args){
-            users.push({name:args.name});
-            return users[users.length-1];
+            db.users.push({name:args.data.name});
+            return db.users[db.users.length-1];
         }
     }
 }
 
 // server
-var server = new GraphQLServer({typeDefs:typeDef,resolvers : resolver});
+var server = new GraphQLServer({
+    typeDefs:'./src/schema.graphql',
+    resolvers : resolver,
+    context:{
+        db
+    }
+    
+});
 server.start((data,err)=>{
     if(data){
         console.log('server started at',data.port);
