@@ -1,9 +1,15 @@
 import { GraphQLServer } from 'graphql-yoga';
+// types
+// String , Boolean , Int , Float , ID
 
 // schema
 const typeDef=`
     type Query {
         name : String!
+        id : ID!
+        status: Boolean!
+        Age: Int!
+        BagCapacity: Float! 
     }
 `
 
@@ -12,7 +18,18 @@ const resolver ={
     Query: {
         name:()=>{
             return getRandomName();
-            // return "Akash";
+        },
+        id:()=>{
+            return 50;
+        },
+        status:()=>{
+            return true
+        },
+        Age:()=>{
+            return 20.0
+        },
+        BagCapacity:()=>{
+            return 50;
         }
     }
 }
