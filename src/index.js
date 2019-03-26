@@ -12,6 +12,7 @@ const typeDef=`
         BagCapacity: Float! 
         obj: Obj!
         arr:[Int]!
+        sum(num:[Int!]): Int!
     }
     type Obj {
         name : String!
@@ -45,6 +46,14 @@ const resolver ={
         },
         arr(){
             return [1,2,3];
+        },
+        sum(parent,args){
+            console.log(args);
+            if(!args.num.length)
+                return 0;
+            return args.num.reduce((prev,current)=>{
+                return prev+current;
+            })
         }
     }
 }
