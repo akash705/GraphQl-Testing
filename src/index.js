@@ -10,6 +10,11 @@ const typeDef=`
         status: Boolean!
         Age: Int!
         BagCapacity: Float! 
+        obj: Obj!
+    }
+    type Obj {
+        name : String!
+        class:String
     }
 `
 
@@ -30,11 +35,17 @@ const resolver ={
         },
         BagCapacity:()=>{
             return 50;
+        },
+        obj(){
+            return {
+                name:'Akash',
+                class:"SSSS"
+            }
         }
     }
 }
 function getRandomName(){
-    console.log('randome name called');
+    // console.log('randome name called');
     return "Ahsk";
 }
 
