@@ -1,7 +1,9 @@
 import { GraphQLServer } from 'graphql-yoga';
 // types
 // String , Boolean , Int , Float , ID
-
+var users=[{
+    name:'Aaksh'
+}]
 // schema
 const typeDef=`
     type Query {
@@ -13,10 +15,14 @@ const typeDef=`
         obj: Obj!
         arr:[Int]!
         sum(num:[Int!]): Int!
+        user:users!
     }
     type Obj {
         name : String!
         class:String
+    }
+    type users{
+        name(name:String!):String!
     }
 `
 
@@ -54,6 +60,16 @@ const resolver ={
             return args.num.reduce((prev,current)=>{
                 return prev+current;
             })
+        },
+        user(){
+            return users[0]
+        }
+    },
+    // overloading schma entry user with type Users
+    users:{
+        name(parent,args){
+            console.log(args);
+            return "shaktimaan"
         }
     }
 }
