@@ -4,78 +4,39 @@ import { GraphQLServer } from 'graphql-yoga';
 var users=[{
     name:'Aaksh'
 }]
+var x=[{
+    name:'X value'
+}]
 // schema
 const typeDef=`
     type Query {
         name (name: String) : String!
-        id : ID!
-        status: Boolean!
-        Age: Int!
-        BagCapacity: Float! 
-        obj: Obj!
-        arr:[Int]!
-        sum(num:[Int!]): Int!
-        user:users!
+        user:[users!]!
     }
-    type Obj {
-        name : String!
-        class:String
+    type Mutation {
+        createUser(name:String!):users!
     }
     type users{
-        name(name:String!):String!
+        name(name:String):String!
     }
 `
 
 // endpoints resolver
 const resolver ={
     Query: {
-        name(parent,args,ctx,info){
-            return "Hello "+args.name
+        user:()=>{
+            return users;
         },
-        id:()=>{
-            return 50;
-        },
-        status:()=>{
-            return true
-        },
-        Age:()=>{
-            return 20.0
-        },
-        BagCapacity:()=>{
-            return 50;
-        },
-        obj(){
-            return {
-                name:'Akash',
-                class:"SSSS"
-            }
-        },
-        arr(){
-            return [1,2,3];
-        },
-        sum(parent,args){
-            console.log(args);
-            if(!args.num.length)
-                return 0;
-            return args.num.reduce((prev,current)=>{
-                return prev+current;
-            })
-        },
-        user(){
-            return users[0]
+        name:()=>{
+            return "akasj"
         }
     },
-    // overloading schma entry user with type Users
-    users:{
-        name(parent,args){
-            console.log(args);
-            return "shaktimaan"
+    Mutation:{
+        createUser(parent,args){
+            users.push({name:args.name});
+            return users[users.length-1];
         }
     }
-}
-function getRandomName(){
-    // console.log('randome name called');
-    return "Ahsk";
 }
 
 // server
