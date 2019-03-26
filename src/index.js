@@ -5,12 +5,13 @@ import { GraphQLServer } from 'graphql-yoga';
 // schema
 const typeDef=`
     type Query {
-        name : String!
+        name (name: String) : String!
         id : ID!
         status: Boolean!
         Age: Int!
         BagCapacity: Float! 
         obj: Obj!
+        arr:[Int]!
     }
     type Obj {
         name : String!
@@ -21,8 +22,8 @@ const typeDef=`
 // endpoints resolver
 const resolver ={
     Query: {
-        name:()=>{
-            return getRandomName();
+        name(parent,args,ctx,info){
+            return "Hello "+args.name
         },
         id:()=>{
             return 50;
@@ -41,6 +42,9 @@ const resolver ={
                 name:'Akash',
                 class:"SSSS"
             }
+        },
+        arr(){
+            return [1,2,3];
         }
     }
 }
