@@ -1,10 +1,11 @@
-import { GraphQLServer } from 'graphql-yoga';
+import { GraphQLServer , PubSub } from 'graphql-yoga';
 import db from './db';
 // types
 // String , Boolean , Int , Float , ID
 
 // schema
 
+var pubsub = new PubSub();
 
 // endpoints resolver
 const resolver ={
@@ -17,9 +18,13 @@ const resolver ={
         }
     },
     Mutation:{
-        createUser(parent,args){
+        createUser(parent,args,{pubsub},info){
             db.users.push({name:args.data.name});
-            return db.users[db.users.length-1];
+            pubsub.publish('insertUser',{
+                insertionUser:db.users[db.users.length-1]
+            })
+            // return db.users[db.users.length-1];
+            return "truthy";
         },
         updateUser(parent,args){
             let f = db.users.findIndex(data=>{
@@ -36,6 +41,26 @@ const resolver ={
             else
                 return db.users
         }
+    },
+    Subscription:{
+        count:{
+            subscribe(parent,args,{pubsub},info){
+                let count=0;
+                // here inside publish is a channel name
+                setInterval(data=>{
+                    pubsub.publish('count',{
+                        count:++count
+                    });
+                },2000)
+                // returning channel name as a async iterator
+                return pubsub.asyncIterator('count');
+            }
+        },
+        insertionUser:{
+            subscribe(parent,args,{pubsub},info){
+                return pubsub.asyncIterator('insertUser');
+            }
+        }
     }
 }
 
@@ -44,7 +69,8 @@ var server = new GraphQLServer({
     typeDefs:'./src/schema.graphql',
     resolvers : resolver,
     context:{
-        db
+        db,
+        pubsub
     }
     
 });

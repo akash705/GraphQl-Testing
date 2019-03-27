@@ -1,10 +1,18 @@
 type Query {
     name(name: String): String!
-        user: [users!] !
+        user: [users!]!
 }
-
+type Subscription{
+    count:Int!
+    insertionUser:users!
+}
+# used for type casging of response
+enum MutationType{
+    truthy
+    falsy
+}
 type Mutation {
-    createUser(data: nameInput!): users!
+    createUser(data: nameInput!): MutationType!
     updateUser(oldName:String! , newName:String!):[users!] 
 }
 input nameInput {
