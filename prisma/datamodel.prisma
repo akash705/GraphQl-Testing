@@ -3,6 +3,12 @@ type User {
   name: String!
   details:[tasks!]!
 }
+enum YNEnum{
+  yes,
+  no
+}
 type tasks{
-
+  name: String!
+  date: String!
+  completed: YNEnum
 }

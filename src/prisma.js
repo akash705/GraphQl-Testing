@@ -1,5 +1,7 @@
+import { Prisma } from 'prisma-binding';
+
 const prisma = new Prisma({
-    typeDefs: 'schemas/database.graphql',
-    endpoint: 'https://us1.prisma.sh/demo/my-service/dev',
+    typeDefs: 'src/generated/prisma.graphql',
+    endpoint: 'localhost:4466',
     secret: 'my-super-secret-secret'
   })
