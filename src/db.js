@@ -1,6 +1,14 @@
-var users=[{
-    name:'Aaksh'
-}]
+var users=[
+    {
+        name:'Aaksh'
+    },
+    {
+        name:'Mishra'
+    },
+    {
+        name:'great'
+    },
+]
 var x=[{
     name:'X value'
 }]

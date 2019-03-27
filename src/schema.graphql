@@ -5,6 +5,7 @@ type Query {
 
 type Mutation {
     createUser(data: nameInput!): users!
+    updateUser(oldName:String! , newName:String!):[users!] 
 }
 input nameInput {
     name: String!

@@ -20,6 +20,21 @@ const resolver ={
         createUser(parent,args){
             db.users.push({name:args.data.name});
             return db.users[db.users.length-1];
+        },
+        updateUser(parent,args){
+            let f = db.users.findIndex(data=>{
+                return data.name==args.oldName
+            })
+            
+            if(~f){
+                let data = {
+                    name:args.newName
+                }
+                db.users[f]=data;
+                return db.users[f];
+            }
+            else
+                return db.users
         }
     }
 }
